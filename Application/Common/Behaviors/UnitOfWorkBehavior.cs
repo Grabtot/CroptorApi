@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Croptor.Application.Common.Behaviors
 {
-    public class TransactionPipelineBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork)
+    public class TransactionBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork)
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
     {

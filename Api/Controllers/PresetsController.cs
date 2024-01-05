@@ -25,6 +25,7 @@ namespace Croptor.Api.Controllers
 
         [Authorize]
         [HttpPost("size")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> AddCustomSize(AddSizeDto sizeDto)
         {
             Size size = _mapper.Map<Size>(sizeDto);

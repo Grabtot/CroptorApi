@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Croptor.Infrastructure
+namespace Croptor.Infrastructure.Persistence
 {
     public class CroptorDbContext(DbContextOptions<CroptorDbContext> options)
         : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
