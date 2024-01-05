@@ -1,6 +1,6 @@
+using Croptor.Api.Attributes;
 using Croptor.Domain.Users;
 using Croptor.Infrastructure;
-using Croptor.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -11,7 +11,11 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<CroptorDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ExceptionFilterAttribute>();
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
