@@ -4,13 +4,13 @@
     {
         private Plan(PlanType planType, DateOnly? expireDate)
         {
-            PlanType = planType;
+            Type = planType;
             ExpireDate = expireDate;
         }
 
         private Plan() { }
 
-        public PlanType PlanType { get; protected set; }
+        public PlanType Type { get; protected set; }
         public DateOnly? ExpireDate { get; protected set; }
 
         public static Plan Create(PlanType type, DateOnly? expireDate = null)
