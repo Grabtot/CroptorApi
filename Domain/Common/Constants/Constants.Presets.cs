@@ -5,6 +5,11 @@
         public static class Presets
         {
             public const string DefaultName = "New Preset";
+
+
+            public const string CustomName = "Custom";
+            // Todo add real uri
+            public static readonly Uri DefaultCustomIconUri = new("");
         }
     }
 }

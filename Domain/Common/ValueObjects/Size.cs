@@ -2,11 +2,11 @@
 {
     public record Size
     {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        public string Name { get; private set; } = null!;
-        public Uri? IconUri { get; private set; }
+        public string Name { get; set; } = null!;
+        public Uri? IconUri { get; set; }
 
         private Size() { }
 
