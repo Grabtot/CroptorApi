@@ -3,33 +3,35 @@ using Croptor.Api.Common.Mapping;
 using Croptor.Api.Services;
 using Croptor.Application;
 using Croptor.Application.Common.Interfaces;
-using Croptor.Domain.Users;
 using Croptor.Infrastructure;
-using Croptor.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+IServiceCollection services = builder.Services;
+ConfigurationManager configuration = builder.Configuration;
 
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddApplication();
+services.AddInfrastructure(configuration);
+services.AddApplication();
 
-builder.Services.AddIdentity<User, IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<CroptorDbContext>()
-    .AddDefaultTokenProviders();
+services.AddMapping();
 
-builder.Services.AddMapping();
-
-builder.Services.AddControllers(options =>
+services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionFilterAttribute>();
 });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-builder.Services.AddAuthentication();
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = configuration["JwtSetting:Authority"];
+        options.Audience = configuration["JwtSetting:Audience"];
+    });
 
-builder.Services.AddScoped<IUserProvider, UserProvider>();
+services.AddHttpContextAccessor();
+services.AddScoped<IUserProvider, UserProvider>();
 
 WebApplication app = builder.Build();
 
