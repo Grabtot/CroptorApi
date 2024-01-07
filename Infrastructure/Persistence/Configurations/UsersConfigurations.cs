@@ -12,9 +12,7 @@ namespace Croptor.Infrastructure.Persistence.Configurations
             builder.OwnsOne("plan", user => user.Plan, planBuilder =>
             {
                 planBuilder.Property(plan => plan.Type)
-                .HasConversion(
-                    value => value.ToString(),
-                    strValue => Enum.Parse<PlanType>(strValue));
+                .HasDefaultValue(PlanType.Free);
             });
         }
     }

@@ -294,9 +294,10 @@ namespace Croptor.Infrastructure.Migrations
                             b1.Property<DateOnly?>("ExpireDate")
                                 .HasColumnType("date");
 
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasColumnType("text");
+                            b1.Property<int>("Type")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer")
+                                .HasDefaultValue(0);
 
                             b1.HasKey("UserId");
 

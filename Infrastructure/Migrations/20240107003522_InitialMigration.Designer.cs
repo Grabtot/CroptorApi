@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Croptor.Infrastructure.Migrations
 {
     [DbContext(typeof(CroptorDbContext))]
-    [Migration("20240105001232_Init")]
-    partial class Init
+    [Migration("20240107003522_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -297,9 +297,10 @@ namespace Croptor.Infrastructure.Migrations
                             b1.Property<DateOnly?>("ExpireDate")
                                 .HasColumnType("date");
 
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasColumnType("text");
+                            b1.Property<int>("Type")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer")
+                                .HasDefaultValue(0);
 
                             b1.HasKey("UserId");
 

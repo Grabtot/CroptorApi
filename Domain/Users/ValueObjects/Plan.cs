@@ -10,7 +10,7 @@
 
         private Plan() { }
 
-        public PlanType Type { get; protected set; }
+        public PlanType Type { get; protected set; } = PlanType.Free;
         public DateOnly? ExpireDate { get; protected set; }
 
         public static Plan Create(PlanType type, DateOnly? expireDate = null)
