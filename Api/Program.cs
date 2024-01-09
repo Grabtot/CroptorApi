@@ -3,6 +3,7 @@ using Croptor.Api.Common.Mapping;
 using Croptor.Api.Services;
 using Croptor.Application;
 using Croptor.Application.Common.Interfaces;
+using Croptor.Domain.Users.ValueObjects;
 using Croptor.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -29,6 +30,14 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Authority = configuration["JwtSetting:Authority"];
         options.Audience = configuration["JwtSetting:Audience"];
     });
+
+services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProPlan", policy =>
+    {
+        policy.RequireClaim("plan", PlanType.Pro.ToString());
+    });
+});
 
 services.AddHttpContextAccessor();
 services.AddScoped<IUserProvider, UserProvider>();
