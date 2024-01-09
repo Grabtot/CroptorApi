@@ -1,5 +1,8 @@
 ﻿using Croptor.Api.ViewModels.Size;
 using Croptor.Application.Presets.Commands.AddCustomSize;
+using Croptor.Application.Presets.Queries;
+using Croptor.Application.Presets.Queries.GetCustomSizes;
+using Croptor.Application.Presets.Queries.GetPreset;
 using Croptor.Domain.Common.ValueObjects;
 using Croptor.Domain.Presets;
 using Croptor.Domain.Presets.Events;
@@ -35,6 +38,35 @@ namespace Croptor.Api.Controllers
             await _mediator.Publish(new SizeAdded(result, size));
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("presets")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<Guid>>> GetPresets()
+        {
+            List<Guid> result = await _mediator.Send(new GetPresetsQuery());
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("sizes/custom")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<Preset>> GetCustomSizes()
+        {
+            Preset result = await _mediator.Send(new GetCustomSizesQuery());
+
+            return Ok(result);
+        }
+
+        [HttpGet("preset/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<Guid>>> GetPreset(Guid id)
+        {
+            Preset result = await _mediator.Send(new GetPresetQuery(id));
+
+            return Ok(result);
         }
     }
 }

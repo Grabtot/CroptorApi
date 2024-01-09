@@ -16,7 +16,18 @@ namespace Croptor.Infrastructure.Persistence.Repositories
         public async Task<Preset> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync([id], cancellationToken)
-                ?? throw new InvalidOperationException($"Could not find {id}");
+                   ?? throw new InvalidOperationException($"Could not find {id}");
+        }
+        
+        public async Task<Preset?> GetOrDefaultAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await _dbSet.FindAsync([id], cancellationToken);
+        }
+
+        public Task UpdateAsync(Preset preset, CancellationToken cancellationToken)
+        {
+            _dbSet.Update(preset);
+            return Task.CompletedTask;
         }
     }
 }
