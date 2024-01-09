@@ -24,7 +24,7 @@ public class MaxFilesAuthorizationAttribute : Attribute, IAsyncAuthorizationFilt
             var userPlan = GetUserPlanFromToken(context.HttpContext.User);
 
             // Apply authorization logic based on the user's plan
-            if (userPlan != "Pro")
+            if (userPlan is not ("Pro" or "Admin"))
             {
                 context.Result = new ForbidResult();
                 return;
