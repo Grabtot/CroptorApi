@@ -3,9 +3,9 @@ using MediatR;
 
 namespace Croptor.Application.Images.Queries.CropImage;
 
-public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
+public class CropImageQueryHandler : IRequestHandler<CropImageQuery, string>
 {
-    public Task Handle(CropImageQuery request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CropImageQuery request, CancellationToken cancellationToken)
     {
         foreach (var size in request.Sizes)
         {
@@ -19,6 +19,8 @@ public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
                     FillArea = true
                 });
             }
+            else if (size.Width > image.BaseWidth || size.Height > image.BaseHeight)
+                continue;
 
             if (request.ImageParams.Center != null)
             {
@@ -51,7 +53,7 @@ public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
             //TODO: збереження
         }
 
-        return Task.CompletedTask;
+        return "типу ссилка на архів"; //TODO архівувати і повернути посилання
     }
 
     private Gravity SnapToGravity(string VerticalSnap, string HorizontalSnap)
