@@ -35,7 +35,11 @@ services.AddAuthorization(options =>
 {
     options.AddPolicy("ProPlan", policy =>
     {
-        policy.RequireClaim("plan", PlanType.Pro.ToString());
+        policy.RequireClaim("plan", PlanType.Pro.ToString(), PlanType.Admin.ToString());
+    });
+    options.AddPolicy("Admin", policy =>
+    {
+        policy.RequireClaim("plan", PlanType.Admin.ToString());
     });
 });
 

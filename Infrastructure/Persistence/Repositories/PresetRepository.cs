@@ -12,7 +12,7 @@ namespace Croptor.Infrastructure.Persistence.Repositories
         {
             await _dbSet.AddAsync(preset, cancellationToken);
         }
-
+        
         public async Task<Preset> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync([id], cancellationToken)

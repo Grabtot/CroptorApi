@@ -1,5 +1,7 @@
-﻿using Croptor.Api.ViewModels.Size;
+﻿using Croptor.Api.ViewModels.Preset;
+using Croptor.Api.ViewModels.Size;
 using Croptor.Application.Presets.Commands.AddCustomSize;
+using Croptor.Application.Presets.Commands.SavePreset;
 using Croptor.Application.Presets.Queries;
 using Croptor.Application.Presets.Queries.GetCustomSizes;
 using Croptor.Application.Presets.Queries.GetPreset;
@@ -67,6 +69,17 @@ namespace Croptor.Api.Controllers
             Preset result = await _mediator.Send(new GetPresetQuery(id));
 
             return Ok(result);
+        }
+        
+        [HttpPut("preset")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<Guid>>> SavePreset(SavePresetDto presetDto)
+        {
+            Preset preset = _mapper.Map<Preset>(presetDto);
+            
+            await _mediator.Send(new SavePresetCommand(preset));
+
+            return NoContent();
         }
     }
 }
