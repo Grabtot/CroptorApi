@@ -31,7 +31,7 @@ namespace Croptor.Api.Controllers
         [Authorize]
         [HttpPost("size")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> AddCustomSize(AddSizeDto sizeDto)
+        public async Task<ActionResult> AddCustomSize(SizeDto sizeDto)
         {
             Size size = _mapper.Map<Size>(sizeDto);
 
@@ -41,9 +41,23 @@ namespace Croptor.Api.Controllers
 
             return NoContent();
         }
+        [Authorize]
+        [HttpDelete("size")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> RemoveCustomSize(SizeDto sizeDto)
+        {
+            Size size = _mapper.Map<Size>(sizeDto);
+
+            Preset? result = await _mediator.Send(new RemoveCustomSizeCommand(size));
+
+            if(result != null)
+                await _mediator.Publish(new SizeRemoved(result, size));
+
+            return NoContent();
+        }
 
         [Authorize]
-        [HttpGet("presets")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<Guid>>> GetPresets()
         {
@@ -55,25 +69,25 @@ namespace Croptor.Api.Controllers
         [Authorize]
         [HttpGet("sizes/custom")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<Preset>> GetCustomSizes()
+        public async Task<ActionResult<List<SizeDto>>> GetCustomSizes()
         {
-            Preset result = await _mediator.Send(new GetCustomSizesQuery());
-
+            Preset preset = await _mediator.Send(new GetCustomSizesQuery());
+            List<SizeDto> result = preset.Sizes.ConvertAll(_mapper.Map<SizeDto>);
             return Ok(result);
         }
 
-        [HttpGet("preset/{id:guid}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<Guid>>> GetPreset(Guid id)
+        public async Task<ActionResult<PresetDto>> GetPreset(Guid id)
         {
-            Preset result = await _mediator.Send(new GetPresetQuery(id));
-
+            Preset preset = await _mediator.Send(new GetPresetQuery(id));
+            PresetDto result = _mapper.Map<PresetDto>(preset);
             return Ok(result);
         }
         
-        [HttpPut("preset")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<List<Guid>>> SavePreset(SavePresetDto presetDto)
+        public async Task<ActionResult> SavePreset(PresetDto presetDto)
         {
             Preset preset = _mapper.Map<Preset>(presetDto);
             

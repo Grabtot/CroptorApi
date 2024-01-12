@@ -5,4 +5,5 @@ namespace Croptor.Domain.Presets.Events
 {
     public record PresetCreated(Preset Preset) : INotification;
     public record SizeAdded(Preset Preset, Size Size) : INotification;
+    public record SizeRemoved(Preset Preset, Size Size) : INotification;
 }

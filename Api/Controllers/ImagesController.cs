@@ -15,7 +15,7 @@ public class ImagesController(/*IMapper mapper,*/ IMediator mediator) : Controll
     [MaxFilesAuthorization(3)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult> Crop([FromForm] List<IFormFile> files, [FromBody] ImagesParamsDto imagesParams)
+    public async Task<ActionResult<string>> Crop([FromForm] List<IFormFile> files, [FromForm] ImagesParamsDto imagesParams)
     {
         foreach (var file in files)
         {
@@ -31,6 +31,6 @@ public class ImagesController(/*IMapper mapper,*/ IMediator mediator) : Controll
             ));
         }
 
-        return NoContent();
+        return Ok("Kinda link to archive"); //TODO
     }
 }
