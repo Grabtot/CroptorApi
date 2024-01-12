@@ -39,6 +39,17 @@ services.AddAuthorization(options =>
     });
 });
 
+services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 services.AddHttpContextAccessor();
 services.AddScoped<IUserProvider, UserProvider>();
 
