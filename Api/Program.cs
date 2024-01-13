@@ -45,7 +45,7 @@ services.AddAuthorization(options =>
 
 services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("Development", policy =>
     {
         policy.WithOrigins("http://localhost:3000")
             .AllowCredentials()
@@ -66,6 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Development");
 
 app.UseAuthentication();
 app.UseAuthorization();
