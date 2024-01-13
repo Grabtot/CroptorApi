@@ -8,8 +8,8 @@ public class GetPresetQueryHandler(
     IPresetRepository presetRepository
 ) : IRequestHandler<GetPresetQuery, Preset>
 {
-    public Task<Preset> Handle(GetPresetQuery request, CancellationToken cancellationToken)
+    public async Task<Preset> Handle(GetPresetQuery request, CancellationToken cancellationToken)
     {
-        return presetRepository.GetAsync(request.Id, cancellationToken);
+        return await presetRepository.GetAsync(request.Id, cancellationToken);
     }
 }
