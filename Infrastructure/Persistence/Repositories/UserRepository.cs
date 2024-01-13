@@ -23,5 +23,11 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                     .FirstAsync(cancellationToken))
                 .Presets;
         }
+
+        public async Task<User> GetUser(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FindAsync([userId], cancellationToken)
+                   ?? throw new InvalidOperationException($"Could not find User {userId}");
+        }
     }
 }

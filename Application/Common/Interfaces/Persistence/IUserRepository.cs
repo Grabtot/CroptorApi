@@ -1,5 +1,5 @@
-﻿
-using Croptor.Domain.Presets;
+﻿using Croptor.Domain.Presets;
+using Croptor.Domain.Users;
 
 namespace Croptor.Application.Common.Interfaces.Persistence
 {
@@ -7,5 +7,7 @@ namespace Croptor.Application.Common.Interfaces.Persistence
     {
         Task<Guid?> TryGetCustomSizesIdAsync(Guid userId, CancellationToken cancellationToken = default);
         Task<List<Preset>> GetPresets(Guid userId, CancellationToken cancellationToken = default);
+
+        Task<User> GetUser(Guid userId, CancellationToken cancellationToken = default);
     }
 }
