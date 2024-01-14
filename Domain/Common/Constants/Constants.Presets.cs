@@ -9,7 +9,7 @@
 
             public const string CustomName = "Custom";
             // Todo add real uri
-            public static readonly Uri DefaultCustomIconUri = new("");
+            public static readonly Uri DefaultCustomIconUri = new("https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/255_Photo-1024.png");
         }
     }
 }

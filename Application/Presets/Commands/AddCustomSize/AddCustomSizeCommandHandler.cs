@@ -46,6 +46,7 @@ namespace Croptor.Application.Presets.Commands.AddCustomSize
                    [command.Size],
                    Constants.Presets.DefaultCustomIconUri);
 
+
                 await _presetRepository.AddAsync(preset, cancellationToken);
             }
 
