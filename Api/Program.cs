@@ -57,6 +57,7 @@ services.AddCors(options =>
 services.AddHttpContextAccessor();
 services.AddScoped<IUserProvider, UserProvider>();
 
+
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())

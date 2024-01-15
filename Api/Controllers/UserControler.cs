@@ -17,7 +17,7 @@ namespace Croptor.Api.Controllers
         ) : ControllerBase
     {
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<UserDto>> GetUser()
         {
             User user = await mediator.Send(new GetUserQuery());

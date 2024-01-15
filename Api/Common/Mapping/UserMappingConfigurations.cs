@@ -1,8 +1,4 @@
-﻿using Croptor.Api.ViewModels.Preset;
-using Croptor.Api.ViewModels.Size;
-using Croptor.Api.ViewModels.User;
-using Croptor.Domain.Common.ValueObjects;
-using Croptor.Domain.Presets;
+﻿using Croptor.Api.ViewModels.User;
 using Croptor.Domain.Users;
 using Mapster;
 

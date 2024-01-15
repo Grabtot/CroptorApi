@@ -1,5 +1,4 @@
-﻿using Croptor.Api.Attributes;
-using Croptor.Api.ViewModels.Image;
+﻿using Croptor.Api.ViewModels.Image;
 using Croptor.Application.Images.Queries.CropImage;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,6 @@ namespace Croptor.Api.Controllers;
 public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvironment environment) : ControllerBase
 {
     [HttpPost("crop")]
-    [MaxFilesAuthorization(3)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<string>> Crop(
@@ -29,8 +27,9 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
         if (!Directory.Exists(path)) Directory.CreateDirectory(path);
         foreach (var file in files)
         {
-            if (!file.ContentType.StartsWith("image/")) continue;
-            using var memoryStream = new MemoryStream();
+            if (!file.ContentType.StartsWith("image/"))
+                continue;
+            using MemoryStream memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;
             await mediator.Send(new CropImageQuery(

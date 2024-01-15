@@ -5,5 +5,5 @@ public record UserDto(
     string Email,
     string? Image,
     string Plan,
-    DateTime Expires
+    DateOnly Expires
     );
