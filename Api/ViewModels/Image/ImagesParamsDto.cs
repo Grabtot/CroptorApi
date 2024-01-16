@@ -5,5 +5,5 @@ namespace Croptor.Api.ViewModels.Image;
 
 public record ImagesParamsDto(
     List<CropSizeDto> Sizes,
-    Dictionary<string, ImageParamsDto> Images
+    Dictionary<string, ImageParamsDto> Params
 );

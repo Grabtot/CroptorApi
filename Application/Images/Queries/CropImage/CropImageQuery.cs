@@ -8,5 +8,6 @@ public record CropImageQuery(
     MemoryStream MemoryStream,
     string FileName,
     ImageParamsDto ImageParams,
-    List<CropSizeDto> Sizes 
-) : IRequest<string>;
+    List<CropSizeDto> Sizes,
+    string directoryPath
+) : IRequest;

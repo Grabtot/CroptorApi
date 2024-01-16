@@ -3,10 +3,12 @@ using MediatR;
 
 namespace Croptor.Application.Images.Queries.CropImage;
 
-public class CropImageQueryHandler : IRequestHandler<CropImageQuery, string>
+public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
 {
-    public async Task<string> Handle(CropImageQuery request, CancellationToken cancellationToken)
+    public async Task Handle(CropImageQuery request, CancellationToken cancellationToken)
     {
+        var dirPath = Path.Combine(request.directoryPath, request.FileName);
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
         foreach (var size in request.Sizes)
         {
             using MagickImage image = new MagickImage(request.MemoryStream);
@@ -50,10 +52,12 @@ public class CropImageQueryHandler : IRequestHandler<CropImageQuery, string>
                 );
             }
             
-            //TODO: збереження
+            var name = Path.GetFileNameWithoutExtension(request.FileName);
+            var ext = Path.GetExtension(request.FileName);
+            await image.WriteAsync(
+                Path.Combine(dirPath, $"{name} {size.Name} {size.Width}x{size.Height}{ext}"),
+                cancellationToken);
         }
-
-        return "типу ссилка на архів"; //TODO архівувати і повернути посилання
     }
 
     private Gravity SnapToGravity(string VerticalSnap, string HorizontalSnap)
