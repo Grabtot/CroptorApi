@@ -28,7 +28,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = configuration["JwtSetting:Authority"];
-        options.Audience = configuration["JwtSetting:Audience"];
+        options.TokenValidationParameters.ValidateAudience = false;
     });
 
 services.AddAuthorization(options =>
@@ -52,6 +52,14 @@ services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+
+    options.AddPolicy("Production", policy =>
+    {
+        policy.WithOrigins("https://croptor.com")
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 services.AddHttpContextAccessor();
@@ -59,15 +67,19 @@ services.AddScoped<IUserProvider, UserProvider>();
 
 
 WebApplication app = builder.Build();
+bool isDevelopment = app.Environment.IsDevelopment();
 
-if (app.Environment.IsDevelopment())
+if (isDevelopment)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
-app.UseCors("Development");
+
+string corsPolicy = isDevelopment ? "Development" : "Production";
+app.UseCors(corsPolicy);
 
 app.UseAuthentication();
 app.UseAuthorization();
