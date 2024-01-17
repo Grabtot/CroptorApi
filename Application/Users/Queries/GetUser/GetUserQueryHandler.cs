@@ -4,7 +4,7 @@ using Croptor.Domain.Common.Exceptions;
 using MediatR;
 using Croptor.Domain.Users;
 
-namespace Croptor.Application.Users.Queries;
+namespace Croptor.Application.Users.Queries.GetUser;
 
 public class GetUserQueryHandler(
     IUserProvider userProvider,
@@ -19,6 +19,6 @@ public class GetUserQueryHandler(
         }
 
         Guid userId = userProvider.UserId.Value;
-        return userRepository.GetUser(userId, cancellationToken);
+        return userRepository.GetUserAsync(userId, cancellationToken);
     }
 }

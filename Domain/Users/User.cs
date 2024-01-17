@@ -9,6 +9,7 @@ namespace Croptor.Domain.Users
         private User() { }
 
         public List<Preset> Presets { get; private set; } = [];
-        public Plan Plan { get; private set; } = Plan.Create(PlanType.Free);
+        public Plan Plan { get; set; } = Plan.Create(PlanType.Free);
+        public string? Image { get; set; }
     }
 }

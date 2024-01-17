@@ -1,4 +1,4 @@
-﻿using Croptor.Api.ViewModels.Image;
+﻿using Croptor.Application.Orders.Queries.CreateWayForPay.Image;
 using FluentValidation;
 
 namespace Croptor.Application.Images.Queries.CropImage;
