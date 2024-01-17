@@ -40,9 +40,9 @@ namespace Croptor.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Name");
 
-                    b.ToTable("Presets");
+                    b.ToTable("Presets", (string)null);
                 });
 
             modelBuilder.Entity("Croptor.Domain.Users.User", b =>
@@ -57,9 +57,6 @@ namespace Croptor.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("CustomSizesId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -129,7 +126,7 @@ namespace Croptor.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -268,7 +265,7 @@ namespace Croptor.Infrastructure.Migrations
                         .WithMany("Presets")
                         .HasForeignKey("UserId");
 
-                    b.OwnsMany("Croptor.Domain.Common.ValueObjects.Size", "Sizes", b1 =>
+                    b.OwnsMany("Croptor.Domain.Presets.Preset.Sizes#Croptor.Domain.Common.ValueObjects.Size", "Sizes", b1 =>
                         {
                             b1.Property<Guid>("PresetId")
                                 .HasColumnType("uuid");
@@ -294,7 +291,7 @@ namespace Croptor.Infrastructure.Migrations
 
                             b1.HasKey("PresetId", "Id");
 
-                            b1.ToTable("Size");
+                            b1.ToTable("Size", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PresetId");
@@ -305,7 +302,7 @@ namespace Croptor.Infrastructure.Migrations
 
             modelBuilder.Entity("Croptor.Domain.Users.User", b =>
                 {
-                    b.OwnsOne("plan", "Plan", b1 =>
+                    b.OwnsOne("Croptor.Domain.Users.User.Plan#plan", "Plan", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -320,7 +317,7 @@ namespace Croptor.Infrastructure.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("AspNetUsers");
+                            b1.ToTable("AspNetUsers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
