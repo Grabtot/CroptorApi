@@ -10,7 +10,7 @@ namespace Croptor.Domain.Presets
         public Guid? UserId { get; private set; }
         public List<Size> Sizes { get; private set; } = [];
         public Uri? IconUri { get; private set; }
-    
+
         private Preset() { }
 
         private Preset(Guid id, string name, Guid userId, List<Size> sizes, Uri? iconUri)

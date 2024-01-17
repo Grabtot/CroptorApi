@@ -8,14 +8,6 @@ namespace Croptor.Infrastructure.Persistence.Repositories
     public class UserRepository(CroptorDbContext context) : IUserRepository
     {
         private readonly DbSet<User> _dbSet = context.Set<User>();
-
-        public async Task<Guid?> TryGetCustomSizesIdAsync(Guid userId, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.Where(user => user.Id == userId)
-                .Select(user => user.CustomSizesId)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
-
         public async Task<List<Preset>> GetPresetsAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return (await _dbSet.Where(user => user.Id == userId)

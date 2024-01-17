@@ -9,6 +9,8 @@ namespace Croptor.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Preset> builder)
         {
             builder.OwnsMany(preset => preset.Sizes);
+
+            builder.HasIndex(preset => new { preset.UserId, preset.Name });
         }
     }
 }

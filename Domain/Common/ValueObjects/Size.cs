@@ -17,5 +17,12 @@
             Name = name ?? $"{width} x {height}";
             IconUri = iconUri;
         }
+        public Size(System.Drawing.Size size, string? name = null, Uri? iconUri = null)
+        {
+            Width = size.Width;
+            Height = size.Height;
+            Name = name ?? $"{Width} x {Height}";
+            IconUri = iconUri;
+        }
     }
 }

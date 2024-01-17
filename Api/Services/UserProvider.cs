@@ -1,4 +1,5 @@
 ﻿using Croptor.Application.Common.Interfaces;
+using IdentityModel;
 using System.Security.Claims;
 
 namespace Croptor.Api.Services
@@ -11,7 +12,8 @@ namespace Croptor.Api.Services
         {
             get
             {
-                string? userIdClaim = _user?.FindFirstValue(ClaimTypes.NameIdentifier);
+                string? userIdClaim = _user?.FindFirstValue(JwtClaimTypes.Subject)
+                    ?? _user?.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (!string.IsNullOrEmpty(userIdClaim))
                     return Guid.Parse(userIdClaim);
@@ -27,9 +29,9 @@ namespace Croptor.Api.Services
                 if (_user is null)
                     return null;
 
-                IEnumerable<Claim> claims = _user.Claims;
+                string? userNameClaim = _user.FindFirstValue(JwtClaimTypes.Name) ??
+                    _user.FindFirstValue(ClaimTypes.Name);
 
-                string? userNameClaim = claims.FirstOrDefault(c => c.Type == "name")?.Value;
                 if (!string.IsNullOrEmpty(userNameClaim))
                     return userNameClaim;
                 else
