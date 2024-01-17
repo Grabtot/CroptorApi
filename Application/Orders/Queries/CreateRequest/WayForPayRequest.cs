@@ -7,7 +7,7 @@ public record WayForPayRequest
     public string MerchantAccount { get; init; }
     public string MerchantDomainName { get; init; } = "croptor.com";
     public string MerchantSignature { get; set; } = null!;
-    public string ReturnUrl { get; init; } = "https://croptor.com";
+    public string ReturnUrl { get; init; } = "https://croptor.com/resign-oidc";
     public string ServiceUrl { get; init; } = "https://croptor.com/orders/callback";
     public string OrderReference { get; init; }
     public long OrderDate { get; init; } = 1;

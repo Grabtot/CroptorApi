@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Unicode;
 using Croptor.Api.ViewModels.Order;
 using Croptor.Application.Orders.Commands;
+using Croptor.Application.Orders.Commands.ApproveOrder;
 using Croptor.Application.Orders.Queries;
 using Croptor.Application.Orders.Queries.CreateCallbackResponse;
 using Croptor.Application.Orders.Queries.CreateRequest;
@@ -52,11 +53,11 @@ public class OrdersController(IMediator mediator, IConfiguration configuration) 
             if (request.MerchantSignature == callback.MerchantSignature)
             {
                 var response = await mediator.Send(new CreateCallbackResponseQuery(order,keyString));
-                
+                await mediator.Send(new ApproveOrderCommand(order));
                 return Ok(response);
             }
-            else return BadRequest("Signatures aren't the same");
+            return BadRequest("Signatures aren't the same");
         }
-        else return BadRequest("TransactionStatus must equal \"Approved\"");
+        return BadRequest("TransactionStatus must equal \"Approved\"");
     }
 }

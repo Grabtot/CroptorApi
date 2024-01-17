@@ -18,4 +18,10 @@ public class OrderRepository(CroptorDbContext context) : IOrderRepository
         return await _dbSet.FindAsync([id], cancellationToken)
                ?? throw new InvalidOperationException($"Could not find {id}");
     }
+
+    public Task DeleteOrderAsync(Order order, CancellationToken cancellationToken = default)
+    {
+        _dbSet.Remove(order);
+        return Task.CompletedTask;
+    }
 }
