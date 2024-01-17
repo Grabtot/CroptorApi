@@ -1,4 +1,4 @@
-﻿using Croptor.Application.Orders.Queries.CreateWayForPay.User;
+﻿using Croptor.Api.ViewModels.User;
 using Croptor.Domain.Users;
 using Mapster;
 

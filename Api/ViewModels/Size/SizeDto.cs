@@ -1,4 +1,4 @@
-﻿namespace Croptor.Application.Orders.Queries.CreateWayForPay.Size
+﻿namespace Croptor.Api.ViewModels.Size
 {
     public record SizeDto(int Width, int Height);
 }

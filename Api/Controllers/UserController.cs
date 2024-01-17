@@ -1,5 +1,6 @@
-﻿using Croptor.Application.Orders.Queries.CreateWayForPay.User;
-using Croptor.Application.Users.Queries;
+﻿using Croptor.Api.ViewModels.User;
+using Croptor.Application.Users.Commands.SaveUser;
+using Croptor.Application.Users.Queries.GetUser;
 using Croptor.Domain.Users;
 using MapsterMapper;
 using MediatR;
@@ -22,6 +23,14 @@ namespace Croptor.Api.Controllers
         {
             User user = await mediator.Send(new GetUserQuery());
             return Ok(mapper.Map<UserDto>(user));
+        }
+        
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserDto>> SaveUser(SaveUserDto dto)
+        {
+            await mediator.Send(new SaveUserCommand(dto));
+            return NoContent();
         }
     }
 }

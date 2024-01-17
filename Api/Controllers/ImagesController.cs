@@ -1,9 +1,9 @@
-﻿using Croptor.Application.Orders.Queries.CreateWayForPay.Image;
-using Croptor.Application.Images.Queries.CropImage;
+﻿using Croptor.Application.Images.Queries.CropImage;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using Croptor.Api.ViewModels.Image;
 
 namespace Croptor.Api.Controllers;
 
@@ -54,31 +54,30 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     [HttpGet("download/{id:guid}/cropped.zip")]
     public async Task<ActionResult> Download(Guid id)
     {
-        var fileStream =
-            new FileStream(Path.Combine(environment.ContentRootPath, "wwwroot/archives", id.ToString(), "cropped.zip"),
-                FileMode.Open);
-        return File(fileStream, "application/zip");
+        return File(await System.IO.File.ReadAllBytesAsync(
+                Path.Combine(environment.ContentRootPath, "wwwroot/archives", id.ToString(), "cropped.zip")),
+            "application/zip");
     }
 
     [HttpGet("get/{path}")]
     public async Task<ActionResult> Get(string path)
     {
-        var fileStream =
-            new FileStream(Path.Combine(environment.ContentRootPath, "wwwroot/images", path),
-                FileMode.Open);
-        return File(fileStream, "application/zip");
+        return File(await System.IO.File.ReadAllBytesAsync(
+            Path.Combine(environment.ContentRootPath, "wwwroot/images", path)),
+            $"image/{Path.GetExtension(path).Replace(".", "")}");
     }
-    [HttpPost("upload/{path}")]
-    public async Task<ActionResult<string>> upload([FromForm] List<IFormFile> files)
+
+    [HttpPost("upload")]
+    public async Task<ActionResult<string>> Upload([FromForm] List<IFormFile> files)
     {
         var file = files[0];
         if (!file.ContentType.StartsWith("image/")) return BadRequest("File is not an image");
         string newFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-        var fileStream =
+        await using var fileStream =
             new FileStream(Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName),
                 FileMode.CreateNew);
         await file.CopyToAsync(fileStream);
-        var uri = $"{Request.Scheme}://{Request.Host}/images/get/"+newFileName;
+        var uri = $"{Request.Scheme}://{Request.Host}/images/get/" + newFileName;
         return Created(uri, uri);
     }
 }

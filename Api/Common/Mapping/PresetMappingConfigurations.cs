@@ -1,5 +1,5 @@
-﻿using Croptor.Application.Orders.Queries.CreateWayForPay.Preset;
-using Croptor.Application.Orders.Queries.CreateWayForPay.Size;
+﻿using Croptor.Api.ViewModels.Preset;
+using Croptor.Api.ViewModels.Size;
 using Croptor.Domain.Common.ValueObjects;
 using Croptor.Domain.Presets;
 using Mapster;
