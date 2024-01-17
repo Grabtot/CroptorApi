@@ -8,7 +8,7 @@ namespace Croptor.Infrastructure.Persistence.Repositories
     {
         private readonly DbSet<User> _dbSet = context.Set<User>();
 
-        public async Task<User> GetUser(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<User> GetUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return await _dbSet.FindAsync([userId], cancellationToken)
                    ?? throw new InvalidOperationException($"Could not find User {userId}");

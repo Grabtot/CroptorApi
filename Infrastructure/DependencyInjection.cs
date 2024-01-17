@@ -36,6 +36,7 @@ namespace Croptor.Infrastructure
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPresetRepository, PresetRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             return services;
         }

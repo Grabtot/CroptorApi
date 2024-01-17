@@ -1,4 +1,4 @@
-﻿namespace Croptor.Api.ViewModels.Image;
+﻿namespace Croptor.Application.Orders.Queries.CreateWayForPay.Image;
 
 public record ImageParamsDto(
     string VerticalSnap,

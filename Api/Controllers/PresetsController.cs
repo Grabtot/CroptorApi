@@ -88,6 +88,7 @@ namespace Croptor.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = "ProPlan")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SavePreset(PresetDto presetDto)
         {

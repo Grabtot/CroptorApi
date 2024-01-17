@@ -3,17 +3,20 @@ using System;
 using Croptor.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Croptor.Infrastructure.Migrations
+namespace Croptor.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CroptorDbContext))]
-    partial class CroptorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240117151220_user.image")]
+    partial class userimage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
