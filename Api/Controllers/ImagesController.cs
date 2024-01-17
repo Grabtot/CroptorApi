@@ -1,14 +1,16 @@
-﻿using Croptor.Application.Images.Queries.CropImage;
+﻿using Croptor.Api.ViewModels.Image;
+using Croptor.Application.Images.Queries.CropImage;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO.Compression;
-using Croptor.Api.ViewModels.Image;
 
 namespace Croptor.Api.Controllers;
 
 [Route("images")]
 [ApiController]
+[AllowAnonymous]
 public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvironment environment) : ControllerBase
 {
     [HttpPost("crop")]
@@ -19,17 +21,22 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
         [FromForm] string images
     )
     {
-        var imagesParams = JsonConvert.DeserializeObject<ImagesParamsDto>(images);
-        if (imagesParams == null) throw new ArgumentException("images must be a valid json");
+        ImagesParamsDto? imagesParams = JsonConvert.DeserializeObject<ImagesParamsDto>(images);
+        if (imagesParams == null)
+            throw new ArgumentException("images must be a valid json");
 
-        var guid = Guid.NewGuid();
-        var path = Path.Combine(environment.ContentRootPath, "wwwroot", guid.ToString());
-        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-        foreach (var file in files)
+        Guid guid = Guid.NewGuid();
+        string path = Path.Combine(environment.ContentRootPath, "wwwroot/images", guid.ToString());
+
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+
+        foreach (IFormFile file in files)
         {
             if (!file.ContentType.StartsWith("image/"))
                 continue;
-            using MemoryStream memoryStream = new MemoryStream();
+
+            using MemoryStream memoryStream = new();
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;
             await mediator.Send(new CropImageQuery(
@@ -41,13 +48,17 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
             ));
         }
 
-        var newGuid = Guid.NewGuid();
-        var archiveDir = Path.Combine(environment.ContentRootPath, "wwwroot/archives", newGuid.ToString());
-        var archivePath = Path.Combine(archiveDir, "cropped.zip");
-        if (!Directory.Exists(archiveDir)) Directory.CreateDirectory(archiveDir);
+        Guid newGuid = Guid.NewGuid();
+        string archiveDir = Path.Combine(environment.ContentRootPath, "wwwroot/archives", newGuid.ToString());
+        string archivePath = Path.Combine(archiveDir, "cropped.zip");
+
+        if (!Directory.Exists(archiveDir))
+            Directory.CreateDirectory(archiveDir);
         ZipFile.CreateFromDirectory(path, archivePath);
-        Directory.Delete(path);
-        var uri = $"{Request.Scheme}://{Request.Host}/images/download/{newGuid}/cropped.zip";
+
+        Directory.Delete(path, true);
+
+        string uri = $"{Request.Scheme}://{Request.Host}/images/download/{newGuid}/cropped.zip";
         return Created(uri, uri);
     }
 
@@ -70,14 +81,16 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     [HttpPost("upload")]
     public async Task<ActionResult<string>> Upload([FromForm] List<IFormFile> files)
     {
-        var file = files[0];
-        if (!file.ContentType.StartsWith("image/")) return BadRequest("File is not an image");
+        IFormFile file = files[0];
+        if (!file.ContentType.StartsWith("image/"))
+            return BadRequest("File is not an image");
+
         string newFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-        await using var fileStream =
+        await using FileStream fileStream =
             new FileStream(Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName),
                 FileMode.CreateNew);
         await file.CopyToAsync(fileStream);
-        var uri = $"{Request.Scheme}://{Request.Host}/images/get/" + newFileName;
+        string uri = $"{Request.Scheme}://{Request.Host}/images/get/" + newFileName;
         return Created(uri, uri);
     }
 }
