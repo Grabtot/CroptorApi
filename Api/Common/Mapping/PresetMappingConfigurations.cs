@@ -11,7 +11,10 @@ namespace Croptor.Api.Common.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<SizeDto, Size>()
-                .Map(dest => dest, src => new Size(src.Width, src.Height, null, null));
+                .MapWith(dto => new Size(dto.Width, dto.Height, null, null));
+
+            config.NewConfig<Size, SizeDto>()
+                .MapWith(size => new SizeDto(size.Width, size.Height));
 
             config.NewConfig<PresetDto, Preset>()
                 .Map(dest => dest.Id, src => src.Id ?? Guid.NewGuid())

@@ -33,6 +33,8 @@ namespace Croptor.Application.Presets.Commands.AddCustomSize
             }
             else
             {
+                command.Size.IconUri = Constants.Presets.DefaultCustomIconUri;
+
                 preset = Preset.Create(Constants.Presets.CustomName,
                    userId,
                    [command.Size],

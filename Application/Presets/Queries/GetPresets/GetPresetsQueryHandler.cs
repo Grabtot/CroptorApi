@@ -1,27 +1,26 @@
 ﻿using Croptor.Application.Common.Interfaces;
 using Croptor.Application.Common.Interfaces.Persistence;
-using Croptor.Domain.Presets;
 using MediatR;
 
 namespace Croptor.Application.Presets.Queries;
 
 public class GetPresetsQueryHandler(
     IUserProvider userProvider,
-    IUserRepository userRepository
-
-) : IRequestHandler<GetPresetsQuery, List<Guid>>
+    IPresetRepository presetRepository) : IRequestHandler<GetPresetsQuery, List<Guid>>
 {
+
+    private readonly IPresetRepository _presetRepository = presetRepository;
+    private readonly IUserProvider _userProvider = userProvider;
+
     public async Task<List<Guid>> Handle(GetPresetsQuery request, CancellationToken cancellationToken)
     {
-        if (userProvider.UserId is null)
+        if (_userProvider.UserId is null)
         {
             return [];
         }
 
-        Guid userId = userProvider.UserId.Value;
+        Guid userId = _userProvider.UserId.Value;
 
-        List<Preset> presets = await userRepository.GetPresets(userId, cancellationToken);
-
-        return presets.Select(preset => preset.Id).ToList();
+        return await _presetRepository.GetUserPresetIds(userId, cancellationToken);
     }
 }

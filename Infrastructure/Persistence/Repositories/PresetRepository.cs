@@ -27,7 +27,7 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Preset?> GetOrDefaultAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Preset?> FindAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync([id], cancellationToken);
         }
@@ -37,5 +37,22 @@ namespace Croptor.Infrastructure.Persistence.Repositories
             _dbSet.Update(preset);
             return Task.CompletedTask;
         }
+
+        public async Task<List<Preset>> GetUserPresets(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.Where(preset => preset.UserId == userId
+                  && (preset.Name != Constants.Presets.CustomName))
+                  .ToListAsync(cancellationToken);
+        }
+        public async Task<List<Guid>> GetUserPresetIds(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet
+                .Where(preset => preset.UserId == userId
+                    && (preset.Name != Constants.Presets.CustomName))
+                .Select(preset => preset.Id)
+                .ToListAsync(cancellationToken);
+        }
+
+        public void Delate(Preset preset) => _dbSet.Remove(preset);
     }
 }

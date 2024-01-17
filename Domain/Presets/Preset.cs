@@ -6,10 +6,10 @@ namespace Croptor.Domain.Presets
     public class Preset
     {
         public Guid Id { get; private set; }
-        public string Name { get; private set; } = Constants.Presets.DefaultName;
-        public Guid? UserId { get; private set; }
-        public List<Size> Sizes { get; private set; } = [];
-        public Uri? IconUri { get; private set; }
+        public string Name { get; set; } = Constants.Presets.DefaultName;
+        public Guid? UserId { get; set; }
+        public List<Size> Sizes { get; set; } = [];
+        public Uri? IconUri { get; set; }
 
         private Preset() { }
 

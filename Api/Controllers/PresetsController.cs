@@ -1,7 +1,9 @@
 ﻿using Croptor.Api.ViewModels.Preset;
 using Croptor.Api.ViewModels.Size;
 using Croptor.Application.Presets.Commands.AddCustomSize;
-using Croptor.Application.Presets.Commands.SavePreset;
+using Croptor.Application.Presets.Commands.CreatePreset;
+using Croptor.Application.Presets.Commands.DeletePreset;
+using Croptor.Application.Presets.Commands.UpdatePreset;
 using Croptor.Application.Presets.Queries;
 using Croptor.Application.Presets.Queries.GetCustomSizes;
 using Croptor.Application.Presets.Queries.GetPreset;
@@ -89,9 +91,29 @@ namespace Croptor.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SavePreset(PresetDto presetDto)
         {
-            Preset preset = _mapper.Map<Preset>(presetDto);
+            IRequest<Preset> command;
 
-            await _mediator.Send(new SavePresetCommand(preset));
+            if (!presetDto.Id.HasValue)
+            {
+                command = new CreatePresetCommand(presetDto.Name, presetDto.Sizes);
+            }
+            else
+            {
+                command = new UpdatePresetCommand(presetDto.Id.Value,
+                    presetDto.Name,
+                    presetDto.Sizes);
+            }
+
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> DelatePreset(Guid id)
+        {
+            await _mediator.Send(new DelatePresetCommand(id));
 
             return NoContent();
         }
