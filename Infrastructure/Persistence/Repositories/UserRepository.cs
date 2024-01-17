@@ -16,7 +16,7 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<List<Preset>> GetPresets(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<List<Preset>> GetPresetsAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return (await _dbSet.Where(user => user.Id == userId)
                     .Include(user => user.Presets)
@@ -24,7 +24,7 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                 .Presets;
         }
 
-        public async Task<User> GetUser(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<User> GetUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             return await _dbSet.FindAsync([userId], cancellationToken)
                    ?? throw new InvalidOperationException($"Could not find User {userId}");

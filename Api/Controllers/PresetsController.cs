@@ -1,5 +1,5 @@
-﻿using Croptor.Api.ViewModels.Preset;
-using Croptor.Api.ViewModels.Size;
+﻿using Croptor.Application.Orders.Queries.CreateWayForPay.Preset;
+using Croptor.Application.Orders.Queries.CreateWayForPay.Size;
 using Croptor.Application.Presets.Commands.AddCustomSize;
 using Croptor.Application.Presets.Commands.SavePreset;
 using Croptor.Application.Presets.Queries;
@@ -86,6 +86,7 @@ namespace Croptor.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = "ProPlan")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SavePreset(PresetDto presetDto)
         {

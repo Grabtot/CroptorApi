@@ -20,7 +20,7 @@ public class GetPresetsQueryHandler(
 
         Guid userId = userProvider.UserId.Value;
 
-        List<Preset> presets = await userRepository.GetPresets(userId, cancellationToken);
+        List<Preset> presets = await userRepository.GetPresetsAsync(userId, cancellationToken);
 
         return presets.Select(preset => preset.Id).ToList();
     }

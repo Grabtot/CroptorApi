@@ -19,6 +19,6 @@ public class GetUserQueryHandler(
         }
 
         Guid userId = userProvider.UserId.Value;
-        return userRepository.GetUser(userId, cancellationToken);
+        return userRepository.GetUserAsync(userId, cancellationToken);
     }
 }

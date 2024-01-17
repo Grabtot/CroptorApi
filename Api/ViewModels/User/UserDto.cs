@@ -1,4 +1,4 @@
-﻿namespace Croptor.Api.ViewModels.User;
+﻿namespace Croptor.Application.Orders.Queries.CreateWayForPay.User;
 
 public record UserDto(
     string Name,

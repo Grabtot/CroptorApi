@@ -1,4 +1,4 @@
-﻿namespace Croptor.Api.ViewModels.Preset;
+﻿namespace Croptor.Application.Orders.Queries.CreateWayForPay.Preset;
 
 public record PresetDto(
     Guid? Id,
