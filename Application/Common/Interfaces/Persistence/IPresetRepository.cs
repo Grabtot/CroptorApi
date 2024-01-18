@@ -11,6 +11,7 @@ namespace Croptor.Application.Common.Interfaces.Persistence
         Task<Preset?> FindAsync(Guid id, CancellationToken cancellationToken = default);
         Task UpdateAsync(Preset preset, CancellationToken cancellationToken = default);
         Task<List<Guid>> GetUserPresetIds(Guid userId, CancellationToken cancellationToken = default);
-        void Delate(Preset preset);
+        void Delete(Preset preset);
+        Task<List<Preset>> GetDefaultPresetsAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -27,9 +27,13 @@ namespace Croptor.Domain.Presets
             return new(Guid.NewGuid(), name, userId, sizes, iconUri);
         }
 
-        public static Preset Create(string name, Guid userId, Uri? iconUri = null)
+        public static Preset Create(string name, Guid? userId, Uri? iconUri = null)
         {
             return Create(name, userId, [], iconUri);
+        }
+        public static Preset Create(string name, Uri? iconUri = null)
+        {
+            return Create(name, null, [], iconUri);
         }
 
         public void AddSize(Size size) => Sizes.Add(size);

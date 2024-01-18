@@ -53,6 +53,11 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public void Delate(Preset preset) => _dbSet.Remove(preset);
+        public void Delete(Preset preset) => _dbSet.Remove(preset);
+
+        public async Task<List<Preset>> GetDefaultPresetsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.Where(p => p.UserId == null).ToListAsync(cancellationToken);
+        }
     }
 }
