@@ -30,14 +30,14 @@ namespace Croptor.Infrastructure
 
             });
 
-            if (configuration["ASPNETCORE_ENVIRONMENT"] != "Development")
-            {
-                using IServiceScope scope = services.BuildServiceProvider().CreateScope();
+            //if (configuration["ASPNETCORE_ENVIRONMENT"] != "Development")
+            //{
+            //    using IServiceScope scope = services.BuildServiceProvider().CreateScope();
 
-                CroptorDbContext context = scope.ServiceProvider.
-                    GetRequiredService<CroptorDbContext>();
-                context.Database.Migrate();
-            }
+            //    CroptorDbContext context = scope.ServiceProvider.
+            //        GetRequiredService<CroptorDbContext>();
+            //    context.Database.Migrate();
+            //}
 
             return services;
         }
