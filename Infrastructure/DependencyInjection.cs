@@ -27,7 +27,17 @@ namespace Croptor.Infrastructure
             services.AddDbContext<CroptorDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
+
             });
+
+            if (configuration["ASPNETCORE_ENVIRONMENT"] != "Development")
+            {
+                using IServiceScope scope = services.BuildServiceProvider().CreateScope();
+
+                CroptorDbContext context = scope.ServiceProvider.
+                    GetRequiredService<CroptorDbContext>();
+                context.Database.Migrate();
+            }
 
             return services;
         }
