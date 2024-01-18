@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO.Compression;
+using Croptor.Application.Images.Queries.ScaleDownImage;
 
 namespace Croptor.Api.Controllers;
 
@@ -74,7 +75,7 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     public async Task<ActionResult> Get(string path)
     {
         return File(await System.IO.File.ReadAllBytesAsync(
-            Path.Combine(environment.ContentRootPath, "wwwroot/images", path)),
+                Path.Combine(environment.ContentRootPath, "wwwroot/images", path)),
             $"image/{Path.GetExtension(path).Replace(".", "")}");
     }
 
@@ -84,12 +85,18 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
         IFormFile file = files[0];
         if (!file.ContentType.StartsWith("image/"))
             return BadRequest("File is not an image");
-
+        
         string newFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-        await using FileStream fileStream =
-            new FileStream(Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName),
-                FileMode.CreateNew);
-        await file.CopyToAsync(fileStream);
+        
+        using MemoryStream memoryStream = new();
+        await file.CopyToAsync(memoryStream);
+        memoryStream.Position = 0;
+        
+        await mediator.Send(new ScaleDownImageQuery(
+            memoryStream,
+            Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName))
+        );
+
         string uri = $"{Request.Scheme}://{Request.Host}/images/get/" + newFileName;
         return Created(uri, uri);
     }

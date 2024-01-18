@@ -7,7 +7,7 @@ public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
 {
     public async Task Handle(CropImageQuery request, CancellationToken cancellationToken)
     {
-        var dirPath = Path.Combine(request.directoryPath, request.FileName);
+        var dirPath = Path.Combine(request.DirectoryPath, Path.GetFileNameWithoutExtension(request.FileName));
         if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
         foreach (var size in request.Sizes)
         {

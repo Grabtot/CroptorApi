@@ -9,5 +9,5 @@ public record CropImageQuery(
     string FileName,
     ImageParamsDto ImageParams,
     List<CropSizeDto> Sizes,
-    string directoryPath
+    string DirectoryPath
 ) : IRequest;
