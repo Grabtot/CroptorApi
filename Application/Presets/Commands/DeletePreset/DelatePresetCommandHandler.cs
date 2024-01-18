@@ -27,7 +27,7 @@ namespace Croptor.Application.Presets.Commands.DeletePreset
                 throw new InvalidOperationException("This is not your preset");
             }
 
-            _presetRepository.Delate(preset);
+            _presetRepository.Delete(preset);
 
             return preset;
         }
