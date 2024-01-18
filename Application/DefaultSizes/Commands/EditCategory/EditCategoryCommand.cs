@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Croptor.Application.DefaultSizes.Commands.EditCategory;
 
-public record EditCategoryCommand(Guid Id, string Name, Uri Icon) : IRequest;
+public record EditCategoryCommand(Guid Id, string Name, Uri? Icon) : IRequest;

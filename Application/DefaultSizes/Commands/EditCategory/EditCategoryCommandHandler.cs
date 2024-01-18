@@ -10,6 +10,7 @@ public class EditCategoryCommandHandler(IPresetRepository repository): IRequestH
     {
         Preset preset = await repository.GetAsync(request.Id, cancellationToken);
         preset.Name = request.Name;
-        preset.IconUri = request.Icon;
+        preset.IconUri = request.Icon ??
+                         new Uri("https://croptor.com/images/get/icons/custom-size.svg");
     }
 }
