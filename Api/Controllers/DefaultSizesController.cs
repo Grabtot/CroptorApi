@@ -5,6 +5,7 @@ using Croptor.Application.DefaultSizes.Commands.EditSize;
 using Croptor.Application.DefaultSizes.Commands.RemoveCategory;
 using Croptor.Application.DefaultSizes.Commands.RemoveSize;
 using Croptor.Application.DefaultSizes.Queries.GetCategories;
+using Croptor.Domain.Presets;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace Croptor.Api.Controllers;
 public class DefaultSizesController(IMediator mediator) : ControllerBase
 {
     [HttpPost("categories")]
-    public async Task<ActionResult> GetCategories()
+    public async Task<ActionResult<List<Preset>>> GetCategories()
     {
         var result = await mediator.Send(new GetCategoriesQuery());
         

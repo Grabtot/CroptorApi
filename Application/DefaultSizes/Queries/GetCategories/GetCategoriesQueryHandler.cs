@@ -8,6 +8,6 @@ public class GetCategoriesQueryHandler(IPresetRepository repository): IRequestHa
 {
     public Task<List<Preset>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return repository.GetDefaultPresetsAsync(cancellationToken);
     }
 }
