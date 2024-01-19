@@ -55,7 +55,7 @@ public class CropImageQueryHandler : IRequestHandler<CropImageQuery>
             var name = Path.GetFileNameWithoutExtension(request.FileName);
             var ext = Path.GetExtension(request.FileName);
             await image.WriteAsync(
-                Path.Combine(dirPath, $"{name} {size.Name} {size.Width}x{size.Height}{ext}"),
+                Path.Combine(dirPath, $"{name} {size.Name ?? "custom"} {size.Width}x{size.Height}{ext}"),
                 cancellationToken);
         }
     }
