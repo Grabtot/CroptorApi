@@ -3,13 +3,10 @@ using Croptor.Api.Common.Mapping;
 using Croptor.Api.Services;
 using Croptor.Application;
 using Croptor.Application.Common.Interfaces;
-using Croptor.Domain.Users;
 using Croptor.Domain.Users.ValueObjects;
 using Croptor.Infrastructure;
-using Croptor.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Identity;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services;
