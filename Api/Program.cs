@@ -70,6 +70,8 @@ services.AddCors(options =>
 services.AddHttpContextAccessor();
 services.AddScoped<IUserProvider, UserProvider>();
 
+services.AddHostedService<ArchiveRemover>();
+
 services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 200000000; // Adjust the limit as needed

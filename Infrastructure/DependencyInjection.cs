@@ -1,4 +1,6 @@
-﻿using Croptor.Application.Common.Interfaces.Persistence;
+﻿using Croptor.Application.Common.Interfaces;
+using Croptor.Application.Common.Interfaces.Persistence;
+using Croptor.Infrastructure.Files;
 using Croptor.Infrastructure.Persistence;
 using Croptor.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ namespace Croptor.Infrastructure
             services.AddRepositories();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IFilesRemover, FilesRemover>();
 
             return services;
         }
