@@ -74,9 +74,12 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     [HttpGet("get/{path}")]
     public async Task<ActionResult> Get(string path)
     {
+        var ext = Path.GetExtension(path).Replace(".", "");
+        if (ext == "svg")
+            ext = "svg+xml";
         return File(await System.IO.File.ReadAllBytesAsync(
                 Path.Combine(environment.ContentRootPath, "wwwroot/images", path)),
-            $"image/{Path.GetExtension(path).Replace(".", "")}");
+            $"image/{ext}");
     }
 
     [HttpPost("upload")]
