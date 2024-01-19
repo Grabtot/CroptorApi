@@ -17,19 +17,20 @@ namespace Croptor.Api.Controllers;
 [Route("default")]
 public class DefaultSizesController(IMediator mediator) : ControllerBase
 {
-    [HttpPost("categories")]
+    [HttpGet("categories")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<Preset>>> GetCategories()
     {
-        var result = await mediator.Send(new GetCategoriesQuery());
-        
+        List<Preset> result = await mediator.Send(new GetCategoriesQuery());
+
         return Ok(result);
     }
-    
+
     [HttpPost("size")]
     public async Task<ActionResult> AddSize(AddSizeCommand dto)
     {
         await mediator.Send(dto);
-        
+
         return NoContent();
     }
 
@@ -38,7 +39,7 @@ public class DefaultSizesController(IMediator mediator) : ControllerBase
     {
         Guid id = await mediator.Send(dto);
 
-        return Created(id.ToString(),id);
+        return Created(id.ToString(), id);
     }
 
     [HttpDelete("size")]

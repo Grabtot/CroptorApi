@@ -1,11 +1,11 @@
 ﻿using Croptor.Api.ViewModels.Image;
 using Croptor.Application.Images.Queries.CropImage;
+using Croptor.Application.Images.Queries.ScaleDownImage;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO.Compression;
-using Croptor.Application.Images.Queries.ScaleDownImage;
 
 namespace Croptor.Api.Controllers;
 
@@ -74,6 +74,7 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     [HttpGet("get/{path}")]
     public async Task<ActionResult> Get(string path)
     {
+        path = path.Replace('_', '/');
         return File(await System.IO.File.ReadAllBytesAsync(
                 Path.Combine(environment.ContentRootPath, "wwwroot/images", path)),
             $"image/{Path.GetExtension(path).Replace(".", "")}");
@@ -85,13 +86,13 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
         IFormFile file = files[0];
         if (!file.ContentType.StartsWith("image/"))
             return BadRequest("File is not an image");
-        
+
         string newFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-        
+
         using MemoryStream memoryStream = new();
         await file.CopyToAsync(memoryStream);
         memoryStream.Position = 0;
-        
+
         await mediator.Send(new ScaleDownImageQuery(
             memoryStream,
             Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName))
