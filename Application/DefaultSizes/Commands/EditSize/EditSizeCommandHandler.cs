@@ -11,10 +11,10 @@ public class EditSizeCommandHandler(IPresetRepository repository): IRequestHandl
     public async Task Handle(EditSizeCommand request, CancellationToken cancellationToken)
     {
         Preset preset = await repository.GetAsync(request.CategoryId, cancellationToken);
-        int index = preset.Sizes.FindIndex(size => size == request.Old);
+        int index = preset.Sizes.FindIndex(size => size == request.OldSize);
         if (index >= 0)
         {
-            preset.Sizes[index] = request.New;
+            preset.Sizes[index] = request.NewSize;
         }
     }
 }
