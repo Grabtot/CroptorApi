@@ -36,9 +36,9 @@ public class DefaultSizesController(IMediator mediator) : ControllerBase
     [HttpPost("category")]
     public async Task<ActionResult> AddCategory(AddCategoryCommand dto)
     {
-        await mediator.Send(dto);
+        Guid id = await mediator.Send(dto);
 
-        return NoContent();
+        return Created(id.ToString(),id);
     }
 
     [HttpDelete("size")]

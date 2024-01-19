@@ -4,9 +4,9 @@ using MediatR;
 
 namespace Croptor.Application.DefaultSizes.Commands.AddCategory;
 
-public class AddCategoryCommandHandler(IPresetRepository repository) : IRequestHandler<AddCategoryCommand>
+public class AddCategoryCommandHandler(IPresetRepository repository) : IRequestHandler<AddCategoryCommand, Guid>
 {
-    public Task Handle(AddCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
     {
         var preset = Preset.Create(
             request.Name,
@@ -14,6 +14,7 @@ public class AddCategoryCommandHandler(IPresetRepository repository) : IRequestH
             new Uri("https://croptor.com/images/get/icons/custom-size.svg")
         );
 
-        return repository.AddAsync(preset, cancellationToken);
+         await repository.AddAsync(preset, cancellationToken);
+         return preset.Id;
     }
 }
