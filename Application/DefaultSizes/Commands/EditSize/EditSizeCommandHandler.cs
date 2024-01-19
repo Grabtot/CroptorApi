@@ -1,12 +1,10 @@
 ﻿using Croptor.Application.Common.Interfaces.Persistence;
-using Croptor.Application.DefaultSizes.Commands.EditCategory;
-using Croptor.Domain.Common.ValueObjects;
 using Croptor.Domain.Presets;
 using MediatR;
 
 namespace Croptor.Application.DefaultSizes.Commands.EditSize;
 
-public class EditSizeCommandHandler(IPresetRepository repository): IRequestHandler<EditSizeCommand>
+public class EditSizeCommandHandler(IPresetRepository repository) : IRequestHandler<EditSizeCommand>
 {
     public async Task Handle(EditSizeCommand request, CancellationToken cancellationToken)
     {
