@@ -8,6 +8,7 @@ using Croptor.Domain.Users.ValueObjects;
 using Croptor.Infrastructure;
 using Croptor.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -72,6 +73,10 @@ services.AddCors(options =>
 services.AddHttpContextAccessor();
 services.AddScoped<IUserProvider, UserProvider>();
 
+services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 20000000; // Adjust the limit as needed
+});
 
 WebApplication app = builder.Build();
 bool isDevelopment = app.Environment.IsDevelopment();
