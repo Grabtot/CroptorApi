@@ -11,7 +11,7 @@ public class AddCategoryCommandHandler(IPresetRepository repository) : IRequestH
         var preset = Preset.Create(
             request.Name,
             request.Icon ??
-            new Uri("https://croptor.com/images/get/icons/custom-size.svg")
+            new Uri("https://croptor.com/images/get/icons/customSize.svg")
         );
 
          await repository.AddAsync(preset, cancellationToken);
