@@ -2,5 +2,4 @@
 using MediatR;
 
 namespace Croptor.Application.DefaultSizes.Commands.AddSize;
-
-public record AddSizeCommand(Guid СategoryId, Size Size) : IRequest;
+public record AddSizeCommand(Guid CategoryId, Size Size) : IRequest;

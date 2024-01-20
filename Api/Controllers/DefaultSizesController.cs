@@ -39,7 +39,7 @@ public class DefaultSizesController(IMediator mediator) : ControllerBase
     {
         Guid id = await mediator.Send(dto);
 
-        return Created(id.ToString(), id);
+        return Created(id.ToString(), id.ToString());
     }
 
     [HttpDelete("size")]

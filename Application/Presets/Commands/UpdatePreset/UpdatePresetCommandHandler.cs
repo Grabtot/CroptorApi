@@ -13,7 +13,7 @@ namespace Croptor.Application.Presets.Commands.UpdatePreset
             Preset preset = await _presetRepository.GetAsync(command.Id, cancellationToken);
 
             preset.Name = command.Name;
-            preset.Sizes = preset.Sizes;
+            preset.Sizes = command.Sizes;
 
             return preset;
         }

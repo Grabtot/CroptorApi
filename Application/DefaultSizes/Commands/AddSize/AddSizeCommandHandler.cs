@@ -1,5 +1,4 @@
 ﻿using Croptor.Application.Common.Interfaces.Persistence;
-using Croptor.Application.DefaultSizes.Commands.AddCategory;
 using Croptor.Domain.Presets;
 using MediatR;
 
@@ -9,7 +8,7 @@ public class AddSizeCommandHandler(IPresetRepository repository) : IRequestHandl
 {
     public async Task Handle(AddSizeCommand request, CancellationToken cancellationToken)
     {
-        Preset preset = await repository.GetAsync(request.СategoryId, cancellationToken);
+        Preset preset = await repository.GetAsync(request.CategoryId, cancellationToken);
         preset.Sizes.Add(request.Size);
     }
 }
