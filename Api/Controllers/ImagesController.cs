@@ -75,7 +75,7 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
     public async Task<ActionResult> Get(string path)
     {
         path = path.Replace('_', '/');
-        var ext = Path.GetExtension(path).Replace(".", "");
+        string ext = Path.GetExtension(path).Replace(".", "");
         if (ext == "svg")
             ext = "svg+xml";
         return File(await System.IO.File.ReadAllBytesAsync(
