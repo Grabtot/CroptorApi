@@ -21,7 +21,9 @@ namespace Croptor.Infrastructure.Persistence.Repositories
         {
             try
             {
-                if (user.Plan.ExpireDate != null && user.Plan.ExpireDate > DateOnly.FromDateTime(DateTime.Now) && user.Plan.Type == PlanType.Pro)
+                if (user.Plan.ExpireDate != null
+                    && user.Plan.ExpireDate < DateOnly.FromDateTime(DateTime.Now)
+                    && user.Plan.Type == PlanType.Pro)
                 {
                     user.Plan = Plan.Create(PlanType.Free);
 
