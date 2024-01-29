@@ -22,9 +22,10 @@ namespace Croptor.Api.Controllers
         public async Task<ActionResult<UserDto>> GetUser()
         {
             User user = await mediator.Send(new GetUserQuery());
+
             return Ok(mapper.Map<UserDto>(user));
         }
-        
+
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<UserDto>> SaveUser(SaveUserDto dto)

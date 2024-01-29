@@ -1,8 +1,8 @@
 ﻿using Croptor.Application.Common.Interfaces;
 using Croptor.Application.Common.Interfaces.Persistence;
 using Croptor.Domain.Common.Exceptions;
-using MediatR;
 using Croptor.Domain.Users;
+using MediatR;
 
 namespace Croptor.Application.Users.Queries.GetUser;
 
@@ -11,7 +11,7 @@ public class GetUserQueryHandler(
     IUserRepository userRepository
 ) : IRequestHandler<GetUserQuery, User>
 {
-    public Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
         if (userProvider.UserId is null)
         {
@@ -19,6 +19,10 @@ public class GetUserQueryHandler(
         }
 
         Guid userId = userProvider.UserId.Value;
-        return userRepository.GetUserAsync(userId, cancellationToken);
+        User user = await userRepository.GetUserAsync(userId, cancellationToken);
+
+        userRepository.UpdateSubscriptionForUser(user);
+
+        return user;
     }
 }
