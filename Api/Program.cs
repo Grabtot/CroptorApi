@@ -60,7 +60,7 @@ services.AddCors(options =>
 
     options.AddPolicy("Production", policy =>
     {
-        policy.WithOrigins("https://croptor.com")
+        policy.WithOrigins("https://croptor.com","https://www.croptor.com")
             .AllowCredentials()
             .AllowAnyHeader()
             .AllowAnyMethod();
