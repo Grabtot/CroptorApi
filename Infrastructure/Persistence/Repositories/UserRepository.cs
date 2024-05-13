@@ -25,11 +25,9 @@ namespace Croptor.Infrastructure.Persistence.Repositories
                     && user.Plan.ExpireDate < DateOnly.FromDateTime(DateTime.Now)
                     && user.Plan.Type == PlanType.Pro)
                 {
-                    user.Plan = Plan.Create(PlanType.Free);
+                    user.Plan = Plan.SetFree(user.Plan);
 
                     _dbSet.Update(user);
-
-                    // await context.SaveChangesAsync();
 
                     _logger.LogInformation($"User subscription updated for user {user.Id}");
                 }

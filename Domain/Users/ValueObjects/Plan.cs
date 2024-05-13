@@ -18,6 +18,13 @@
             return new Plan(type, expireDate);
         }
 
+        public static Plan SetFree(Plan plan)
+        {
+            plan.Type = PlanType.Free;
+            plan.ExpireDate = null;
+
+            return plan;
+        }
     }
 
     public enum PlanType
