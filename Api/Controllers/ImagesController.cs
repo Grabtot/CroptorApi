@@ -9,7 +9,7 @@ using System.IO.Compression;
 
 namespace Croptor.Api.Controllers;
 
-[Route("images")]
+[Route("api/images")]
 [ApiController]
 [AllowAnonymous]
 public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvironment environment) : ControllerBase

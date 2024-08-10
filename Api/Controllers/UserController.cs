@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Croptor.Api.Controllers
 {
     [Authorize]
-    [Route("user")]
+    [Route("/api/user")]
     [ApiController]
     public class UserControler(
         IMapper mapper,

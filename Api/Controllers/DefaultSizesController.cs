@@ -14,7 +14,7 @@ namespace Croptor.Api.Controllers;
 
 [Authorize(Policy = "Admin")]
 [ApiController]
-[Route("default")]
+[Route("api/default")]
 public class DefaultSizesController(IMediator mediator) : ControllerBase
 {
     [HttpGet("categories")]

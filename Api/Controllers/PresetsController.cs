@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Croptor.Api.Controllers
 {
-    [Route("presets")]
+    [Route("api/presets")]
     [ApiController]
     [Authorize]
     public class PresetsController : ControllerBase
