@@ -59,7 +59,7 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
 
         Directory.Delete(path, true);
 
-        string uri = $"{Request.Scheme}://{Request.Host}/images/download/{newGuid}/cropped.zip";
+        string uri = $"{Request.Scheme}://{Request.Host}/api/images/download/{newGuid}/cropped.zip";
         return Created(uri, uri);
     }
 
@@ -101,7 +101,7 @@ public class ImagesController( /*IMapper mapper,*/ IMediator mediator, IHostEnvi
             Path.Combine(environment.ContentRootPath, "wwwroot/images", newFileName))
         );
 
-        string uri = $"{Request.Scheme}://{Request.Host}/images/get/" + newFileName;
+        string uri = $"{Request.Scheme}://{Request.Host}/api/images/get/" + newFileName;
         return Created(uri, uri);
     }
 }
